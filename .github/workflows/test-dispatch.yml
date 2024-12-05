@@ -13,15 +13,17 @@ jobs:
         node-version: lts/*
     - name: Print PR Information
       run: |
-        echo "Triggered by PR: ${{ github.event.client_payload.pr_url }}"
+        echo "Event Name: ${{ github.event.client_payload.event_name }}"
         echo "Repository: ${{ github.event.client_payload.repository }}"
-        echo "PR Title: ${{ github.event.client_payload.pr_title }}"
+        echo "Event Type: ${{ github.event.client_payload.event_details }}"
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: |
+        echo "Running tests for: ${{ github.event.client_payload.event_name }}"
+        npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
