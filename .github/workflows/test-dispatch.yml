@@ -11,18 +11,14 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-    - name: Print PR Information
-      run: |
-        echo "Event Name: ${{ github.event.client_payload.event_name }}"
-        echo "Repository: ${{ github.event.client_payload.repository }}"
-        echo "Event Type: ${{ github.event.client_payload.event_details }}"
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: |
-        echo "Running tests for: ${{ github.event.client_payload.event_name }}"
+        echo "Corriendo pruebas por: ${{ github.event.client_payload.event_name }}"
+        echo "Repositorio que activo el evento: ${{ github.event.client_payload.repository }}"
         npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
