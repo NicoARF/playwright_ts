@@ -1,9 +1,5 @@
-name: Playwright Tests
+name: Playwright Tests Dispatch
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   repository_dispatch:
     types: [run-tests]
 jobs:
@@ -15,6 +11,11 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+    - name: Print PR Information
+      run: |
+        echo "Triggered by PR: ${{ github.event.client_payload.pr_url }}"
+        echo "Repository: ${{ github.event.client_payload.repository }}"
+        echo "PR Title: ${{ github.event.client_payload.pr_title }}"
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
